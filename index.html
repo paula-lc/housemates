@@ -161,7 +161,7 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
             <input type="date" class="form-input" id="task-date" style="flex:1"/>
             <select class="form-input" id="task-who" style="flex:1">
               <option value="p">Paula</option>
-              <option value="y">Hermana</option>
+              <option value="y">Isabel</option>
               <option value="both">Las dos</option>
             </select>
           </div>
@@ -177,7 +177,7 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
             <input type="date" class="form-input" id="personal-date" style="flex:1"/>
             <select class="form-input" id="personal-who" style="flex:1">
               <option value="p">Paula</option>
-              <option value="y">Hermana</option>
+              <option value="y">Isabel</option>
             </select>
           </div>
           <button class="add-btn full" onclick="addPersonal()">+ Añadir objetivo</button>
@@ -218,7 +218,7 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
             <input type="date" class="form-input" id="gasto-date" style="flex:1"/>
             <select class="form-input" id="gasto-who" style="flex:1">
               <option value="p">Paula</option>
-              <option value="y">Hermana</option>
+              <option value="y">Isabel</option>
             </select>
           </div>
           <div class="form-row">
@@ -295,7 +295,7 @@ const db = getDatabase(app);
 
 const MONTHS_SHORT = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const DAYS_SHORT = ['L','M','X','J','V','S','D'];
-const WHO_LABEL = {p:'Paula',y:'Hermana',both:'Las dos'};
+const WHO_LABEL = {p:'Paula',y:'Isabel',both:'Las dos'};
 const CAT_LABEL = {familia:'👨‍👩‍👧 Familia',idiomas:'🗣 Idiomas',crear:'🎨 Crear',ocio:'🎉 Ocio',otro:'📌 Otro'};
 const REVIEW_ITEMS = [
   'Repasar tareas pendientes del mes',
@@ -413,11 +413,11 @@ function renderGastos(){
   if(items.length){
     const pP=items.filter(g=>g.who==='p').reduce((s,g)=>s+parseFloat(g.amt||0),0);
     const yP=items.filter(g=>g.who==='y').reduce((s,g)=>s+parseFloat(g.amt||0),0);
-    const total=pP+yP,mx=Math.max(pP,yP,0.01),diff=Math.abs(pP-yP)/2,debtor=pP<yP?'Paula':'Hermana';
+    const total=pP+yP,mx=Math.max(pP,yP,0.01),diff=Math.abs(pP-yP)/2,debtor=pP<yP?'Paula':'Isabel';
     bs.innerHTML=`<div class="balance-wrap">
       <div class="balance-sub">Total: ${total.toFixed(2)}€ · Mitad: ${(total/2).toFixed(2)}€</div>
       <div class="balance-row"><span class="balance-name">Paula</span><div class="bar-wrap"><div class="bar-fill bar-p" style="width:${Math.round(pP/mx*100)}%"></div></div><span class="balance-amt">${pP.toFixed(2)}€</span></div>
-      <div class="balance-row"><span class="balance-name">Hermana</span><div class="bar-wrap"><div class="bar-fill bar-y" style="width:${Math.round(yP/mx*100)}%"></div></div><span class="balance-amt">${yP.toFixed(2)}€</span></div>
+      <div class="balance-row"><span class="balance-name">Isabel</span><div class="bar-wrap"><div class="bar-fill bar-y" style="width:${Math.round(yP/mx*100)}%"></div></div><span class="balance-amt">${yP.toFixed(2)}€</span></div>
       ${diff>0.01?`<div class="balance-alert">${debtor} debe <strong>${diff.toFixed(2)}€</strong> para equilibrar</div>`:`<div class="balance-alert">¡Todo equilibrado! ✓</div>`}
     </div>`;
   } else { bs.innerHTML=''; }
