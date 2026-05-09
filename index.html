@@ -32,7 +32,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-si
 .loading-logo{font-family:var(--font-display);font-size:32px;color:var(--tomato)}
 .loading-logo em{color:var(--rose);font-style:normal}
 #loading p{font-size:13px;color:var(--text-2)}
-.header{background:var(--vanilla);padding:14px 18px 12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:1px solid rgba(0,0,0,0.07)}
+.header{background:var(--vanilla);padding:14px 18px 12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:none}
 .logo{font-family:var(--font-display);font-size:22px;color:var(--tomato);line-height:1}
 .logo em{color:var(--rose);font-style:normal}
 .header-right{display:flex;align-items:center;gap:10px}
@@ -42,6 +42,10 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-si
 .nav-btn:active{background:var(--rose-light);border-color:var(--rose)}
 .conn-dot{width:8px;height:8px;border-radius:50%;background:#ccc;flex-shrink:0;transition:background .3s}
 .conn-dot.ok{background:var(--olive)}
+.header-progress{background:var(--vanilla);padding:0 18px 10px;flex-shrink:0;border-bottom:1px solid rgba(0,0,0,0.07)}
+.header-progress-top{display:flex;justify-content:space-between;font-size:11px;color:var(--text-3);margin-bottom:4px}
+.header-progress-bar{height:5px;background:rgba(0,0,0,0.1);border-radius:3px;overflow:hidden}
+.header-progress-fill{height:100%;background:linear-gradient(90deg,var(--rose),var(--orange));border-radius:3px;transition:width .5s}
 .scroll-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 16px calc(var(--tab-h) + var(--safe-bottom) + 20px)}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--tab-h) + var(--safe-bottom));background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:flex-start;padding-top:6px;z-index:100}
 .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;border:none;background:none;color:var(--text-3);font-family:var(--font-body);padding:4px 2px}
@@ -57,38 +61,58 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-si
 .metric-lbl{font-size:10px;color:var(--text-3);margin-top:3px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px}
 .card-title{font-size:12px;font-weight:500;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px;display:flex;align-items:center;gap:6px}
-.item-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+/* TASK ROWS */
+.item-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
 .item-row:last-child{border-bottom:none;padding-bottom:0}
 .item-row:first-child{padding-top:0}
-.cb{width:20px;height:20px;accent-color:var(--rose);cursor:pointer;flex-shrink:0}
-.item-label{flex:1;font-size:14px;color:var(--text);line-height:1.35}
+.item-row-main{display:flex;align-items:center;gap:10px;width:100%}
+.item-row-edit{display:none;flex-direction:column;gap:6px;padding:8px 0 4px;width:100%}
+.item-row-edit.open{display:flex}
+.cb{width:20px;height:20px;accent-color:var(--rose);cursor:pointer;flex-shrink:0;margin-top:1px}
+.item-body{flex:1;min-width:0}
+.item-label{font-size:14px;color:var(--text);line-height:1.35;cursor:pointer}
 .item-label.done{text-decoration:line-through;color:var(--text-3)}
-.item-meta{display:flex;align-items:center;gap:5px;flex-shrink:0}
+.item-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:3px}
 .item-date{font-size:11px;color:var(--text-2);background:var(--vanilla);padding:2px 7px;border-radius:20px;white-space:nowrap}
 .recur-badge{font-size:10px;color:var(--blue-dark);background:var(--blue-light);padding:2px 6px;border-radius:20px;white-space:nowrap}
 .badge{font-size:11px;padding:3px 9px;border-radius:20px;flex-shrink:0;font-weight:500}
 .badge-p{background:var(--rose-light);color:var(--rose-dark)}
 .badge-y{background:var(--orange-light);color:var(--orange-dark)}
 .badge-both{background:var(--olive-light);color:var(--olive-dark)}
-.del-btn{background:none;border:none;cursor:pointer;color:var(--border-strong);font-size:20px;line-height:1;padding:0 2px;flex-shrink:0}
+.item-actions{display:flex;gap:2px;flex-shrink:0;margin-top:1px}
+.del-btn{background:none;border:none;cursor:pointer;color:var(--border-strong);font-size:20px;line-height:1;padding:0 3px;flex-shrink:0}
 .del-btn:active{color:var(--tomato)}
+.edit-btn{background:none;border:none;cursor:pointer;color:var(--border-strong);font-size:15px;line-height:1;padding:0 3px;flex-shrink:0}
+.edit-btn:active{color:var(--blue)}
+/* EDIT INLINE */
+.edit-row{display:flex;gap:6px;flex-wrap:wrap}
+.edit-input{font-family:var(--font-body);font-size:13px;padding:7px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);outline:none;-webkit-appearance:none;flex:1;min-width:100px}
+.edit-input:focus{border-color:var(--rose)}
+.save-btn{font-family:var(--font-body);background:var(--olive);color:#fff;border:none;border-radius:var(--radius-sm);padding:7px 14px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.save-btn:active{background:var(--olive-dark)}
+.cancel-btn{font-family:var(--font-body);background:none;color:var(--text-3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 12px;font-size:13px;cursor:pointer}
+/* ADD FORM */
 .add-form{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
 .form-row{display:flex;gap:8px}
 .form-input{font-family:var(--font-body);font-size:14px;padding:11px 13px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);width:100%;outline:none;-webkit-appearance:none;transition:border-color .15s}
 .form-input:focus{border-color:var(--rose)}
 .form-input::placeholder{color:var(--text-3)}
 select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23A09880' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;cursor:pointer}
+textarea.form-input{resize:none;min-height:72px;line-height:1.5}
 .add-btn{font-family:var(--font-body);background:var(--rose);color:#fff;border:none;border-radius:var(--radius-sm);padding:12px 18px;font-size:14px;font-weight:500;cursor:pointer;-webkit-appearance:none;transition:background .15s}
 .add-btn:active{background:var(--rose-dark)}
 .full{width:100%}
-.event-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+/* EVENTS */
+.event-row{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
 .event-row:last-child{border-bottom:none}
 .event-day-box{min-width:46px;height:46px;background:var(--vanilla);border-radius:var(--radius-sm);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
 .event-day-num{font-family:var(--font-display);font-size:20px;color:var(--tomato);line-height:1}
 .event-day-mo{font-size:9px;color:var(--text-3);text-transform:uppercase;letter-spacing:.04em}
 .event-info{flex:1;min-width:0}
-.event-name{font-size:14px;font-weight:500;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.event-cat{font-size:12px;color:var(--text-3);margin-top:2px}
+.event-name{font-size:14px;font-weight:500;color:var(--text)}
+.event-sub{font-size:12px;color:var(--text-3);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.event-desc{font-size:12px;color:var(--text-2);margin-top:4px;line-height:1.4;font-style:italic}
+/* GASTOS */
 .gasto-row{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--border)}
 .gasto-row:last-child{border-bottom:none}
 .gasto-label{flex:1;font-size:14px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -110,7 +134,7 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
 .cal-header-row{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px}
 .cal-day-lbl{font-size:10px;color:var(--text-3);text-align:center;text-transform:uppercase;letter-spacing:.04em;padding:3px 0}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-.cal-cell{min-height:52px;background:var(--bg);border-radius:6px;padding:4px 3px;display:flex;flex-direction:column;gap:2px;cursor:pointer;transition:outline .1s}
+.cal-cell{min-height:52px;background:var(--bg);border-radius:6px;padding:4px 3px;display:flex;flex-direction:column;gap:2px;cursor:pointer}
 .cal-cell:active{outline:2px solid var(--rose)}
 .cal-cell.today{background:var(--vanilla)}
 .cal-cell.empty{background:none;cursor:default;pointer-events:none}
@@ -129,11 +153,13 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
 .modal-title{font-family:var(--font-display);font-size:20px;color:var(--tomato);margin-bottom:16px}
 .modal-section{margin-bottom:14px}
 .modal-section-title{font-size:11px;font-weight:500;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
-.modal-item{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:14px}
+.modal-item{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:14px}
 .modal-item:last-child{border-bottom:none}
+.modal-item-body{flex:1;min-width:0}
+.modal-item-desc{font-size:12px;color:var(--text-3);margin-top:3px;font-style:italic;line-height:1.4}
 .modal-empty{font-size:13px;color:var(--text-3);padding:6px 0}
 .modal-close{width:100%;margin-top:10px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;font-size:14px;font-family:var(--font-body);color:var(--text-2);cursor:pointer}
-/* RESUMEN TASKS */
+/* RESUMEN */
 .res-task-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
 .res-task-row:last-child{border-bottom:none}
 .res-task-label{flex:1;color:var(--text)}
@@ -180,6 +206,14 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
       <div class="conn-dot" id="conn-dot"></div>
     </div>
   </div>
+  <div class="header-progress">
+    <div class="header-progress-top">
+      <span>Progreso del mes</span><span id="header-pct">0%</span>
+    </div>
+    <div class="header-progress-bar">
+      <div class="header-progress-fill" id="header-progress-fill" style="width:0%"></div>
+    </div>
+  </div>
 
   <div class="scroll-area">
 
@@ -199,17 +233,15 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
             <input type="date" class="form-input" id="task-date" style="flex:1"/>
             <select class="form-input" id="task-who" style="flex:1">
               <option value="p">Paula</option>
-              <option value="y">Hermana</option>
+              <option value="y">Isabel</option>
               <option value="both">Las dos</option>
             </select>
           </div>
-          <div class="form-row">
-            <select class="form-input" id="task-recur" style="flex:1">
-              <option value="none">Sin repetición</option>
-              <option value="weekly">Semanal</option>
-              <option value="monthly">Mensual</option>
-            </select>
-          </div>
+          <select class="form-input" id="task-recur">
+            <option value="none">Sin repetición</option>
+            <option value="weekly">Semanal</option>
+            <option value="monthly">Mensual</option>
+          </select>
           <button class="add-btn full" onclick="addTask()">+ Añadir tarea</button>
         </div>
       </div>
@@ -222,16 +254,14 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
             <input type="date" class="form-input" id="personal-date" style="flex:1"/>
             <select class="form-input" id="personal-who" style="flex:1">
               <option value="p">Paula</option>
-              <option value="y">Hermana</option>
+              <option value="y">Isabel</option>
             </select>
           </div>
-          <div class="form-row">
-            <select class="form-input" id="personal-recur" style="flex:1">
-              <option value="none">Sin repetición</option>
-              <option value="weekly">Semanal</option>
-              <option value="monthly">Mensual</option>
-            </select>
-          </div>
+          <select class="form-input" id="personal-recur">
+            <option value="none">Sin repetición</option>
+            <option value="weekly">Semanal</option>
+            <option value="monthly">Mensual</option>
+          </select>
           <button class="add-btn full" onclick="addPersonal()">+ Añadir objetivo</button>
         </div>
       </div>
@@ -244,6 +274,7 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
         <div id="event-list"><div class="empty">Sin planes este mes</div></div>
         <div class="add-form">
           <input type="text" class="form-input" id="event-name" placeholder="Actividad..."/>
+          <textarea class="form-input" id="event-desc" placeholder="Descripción (opcional)..." rows="2"></textarea>
           <div class="form-row">
             <input type="date" class="form-input" id="event-date" style="flex:1"/>
             <select class="form-input" id="event-cat" style="flex:1">
@@ -254,6 +285,11 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
               <option value="otro">📌 Otro</option>
             </select>
           </div>
+          <select class="form-input" id="event-who">
+            <option value="both">Las dos</option>
+            <option value="p">Paula</option>
+            <option value="y">Isabel</option>
+          </select>
           <button class="add-btn full" onclick="addEvent()">+ Añadir plan</button>
         </div>
       </div>
@@ -270,7 +306,7 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
             <input type="date" class="form-input" id="gasto-date" style="flex:1"/>
             <select class="form-input" id="gasto-who" style="flex:1">
               <option value="p">Paula</option>
-              <option value="y">Hermana</option>
+              <option value="y">Isabel</option>
             </select>
           </div>
           <div class="form-row">
@@ -289,7 +325,6 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
         <div class="metric"><div class="metric-val" id="r-planes">0</div><div class="metric-lbl">actividades</div></div>
         <div class="metric"><div class="metric-val" id="r-gastos">0€</div><div class="metric-lbl">gastado</div></div>
       </div>
-
       <div class="card">
         <div class="card-title"><span>📅</span> Calendario <span style="font-size:10px;font-weight:400;color:var(--text-3);margin-left:4px">· toca un día para ver el detalle</span></div>
         <div class="cal-legend">
@@ -300,12 +335,10 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
         <div class="cal-header-row" id="cal-headers"></div>
         <div class="cal-grid" id="cal-grid"></div>
       </div>
-
       <div class="card">
         <div class="card-title"><span>🧹</span> Tareas del mes</div>
         <div id="res-task-list"><div class="empty">Sin tareas este mes</div></div>
       </div>
-
       <div class="card">
         <div class="card-title"><span>✅</span> Revisión mensual</div>
         <div id="review-list"></div>
@@ -340,7 +373,7 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, push, set, remove, onValue }
+import { getDatabase, ref, push, set, remove, onValue, update }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
@@ -357,11 +390,10 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 const MONTHS_SHORT = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-const MONTHS_FULL = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-const DAYS_SHORT = ['L','M','X','J','V','S','D'];
-const WHO_LABEL = {p:'Paula',y:'Hermana',both:'Las dos'};
-const CAT_LABEL = {familia:'👨‍👩‍👧 Familia',idiomas:'🗣 Idiomas',crear:'🎨 Crear',ocio:'🎉 Ocio',otro:'📌 Otro'};
-const RECUR_LABEL = {weekly:'Semanal',monthly:'Mensual'};
+const MONTHS_FULL  = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const DAYS_SHORT   = ['L','M','X','J','V','S','D'];
+const WHO_LABEL    = {p:'Paula',y:'Isabel',both:'Las dos'};
+const CAT_LABEL    = {familia:'👨‍👩‍👧 Familia',idiomas:'🗣 Idiomas',crear:'🎨 Crear',ocio:'🎉 Ocio',otro:'📌 Otro'};
 const REVIEW_ITEMS = [
   'Repasar tareas pendientes del mes',
   'Acordar el reparto del mes siguiente',
@@ -376,168 +408,209 @@ let localData = {tasks:{},personal:{},events:{},gastos:{},review:{},recurring:{}
 
 onValue(ref(db,'.info/connected'), snap => {
   const ok = snap.val();
-  const dot = document.getElementById('conn-dot');
-  dot.className = 'conn-dot'+(ok?' ok':'');
-  dot.title = ok?'Sincronizado':'Sin conexión';
+  document.getElementById('conn-dot').className = 'conn-dot'+(ok?' ok':'');
 });
 
-const mk = () => `${curYear}-${String(curMonth+1).padStart(2,'0')}`;
-const pad = n => String(n).padStart(2,'0');
+const mk  = () => `${curYear}-${pad(curMonth+1)}`;
+const pad = n  => String(n).padStart(2,'0');
+const esc = s  => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const fmtDate = s => { if(!s)return''; const[y,m,d]=s.split('-'); return `${parseInt(d)} ${MONTHS_SHORT[parseInt(m)-1]}`; };
 
 ['tasks','personal','events','gastos','review','recurring'].forEach(col => {
   onValue(ref(db,col), snap => { localData[col]=snap.val()||{}; render(); });
 });
 
-document.getElementById('loading').style.display='none';
-document.getElementById('main-app').style.display='flex';
+document.getElementById('loading').style.display = 'none';
+document.getElementById('main-app').style.display = 'flex';
 
-// ── Recurring task propagation ────────────────────────────────────────────────
-// When app loads and on month change, ensures recurring tasks exist for curMonth
+// ── Recurring propagation ─────────────────────────────────────────────────────
 function propagateRecurring(){
   const ms = mk();
-  const existing = Object.values(localData.tasks).filter(t=>t.month===ms).map(t=>t.recurringId||'');
-  const existingP = Object.values(localData.personal).filter(p=>p.month===ms).map(p=>p.recurringId||'');
 
-  Object.entries(localData.recurring).forEach(([rid, r])=>{
+  Object.entries(localData.recurring).forEach(([rid, r]) => {
     if(!r || !r.active) return;
-    const col = r.type==='personal'?'personal':'tasks';
-    const exList = col==='personal'?existingP:existing;
-    if(exList.includes(rid)) return; // already exists this month
+    const col = r.type === 'personal' ? 'personal' : 'tasks';
+    const existing = Object.values(localData[col])
+      .filter(t => t.month === ms && t.recurringId === rid);
 
-    if(r.recur==='monthly'){
-      // one per month, keep original day
-      const [oy,om,od] = (r.baseDate||`${curYear}-${pad(curMonth+1)}-01`).split('-');
-      const newDate = `${curYear}-${pad(curMonth+1)}-${od}`;
-      push(ref(db,col),{text:r.text,date:newDate,who:r.who,done:false,month:ms,recurringId:rid});
-    } else if(r.recur==='weekly'){
-      // generate one entry per week in the month that falls on the same weekday
-      const [oy,om,od] = (r.baseDate||`${curYear}-${pad(curMonth+1)}-01`).split('-');
-      const baseDow = new Date(parseInt(oy),parseInt(om)-1,parseInt(od)).getDay();
-      const dim = new Date(curYear,curMonth+1,0).getDate();
-      const generated = [];
-      for(let d=1;d<=dim;d++){
-        const dow = new Date(curYear,curMonth,d).getDay();
-        if(dow===baseDow){
-          const newDate = `${curYear}-${pad(curMonth+1)}-${pad(d)}`;
-          generated.push(newDate);
+    if(r.recur === 'monthly'){
+      if(existing.length > 0) return;
+      const baseDay = r.baseDate ? r.baseDate.split('-')[2] : '01';
+      // clamp day to days in month
+      const dim = new Date(curYear, curMonth+1, 0).getDate();
+      const day = Math.min(parseInt(baseDay), dim);
+      const newDate = `${curYear}-${pad(curMonth+1)}-${pad(day)}`;
+      push(ref(db, col), {text:r.text, date:newDate, who:r.who, done:false, month:ms, recurringId:rid});
+
+    } else if(r.recur === 'weekly'){
+      // find weekday of base date
+      const baseParts = r.baseDate ? r.baseDate.split('-') : [`${curYear}`,pad(curMonth+1),'01'];
+      const baseDow = new Date(parseInt(baseParts[0]), parseInt(baseParts[1])-1, parseInt(baseParts[2])).getDay();
+      const dim = new Date(curYear, curMonth+1, 0).getDate();
+
+      for(let d = 1; d <= dim; d++){
+        const dow = new Date(curYear, curMonth, d).getDay();
+        if(dow !== baseDow) continue;
+        const newDate = `${curYear}-${pad(curMonth+1)}-${pad(d)}`;
+        // check if already exists for this exact date
+        const alreadyExists = Object.values(localData[col])
+          .some(t => t.month === ms && t.recurringId === rid && t.date === newDate);
+        if(!alreadyExists){
+          push(ref(db, col), {text:r.text, date:newDate, who:r.who, done:false, month:ms, recurringId:rid});
         }
       }
-      // only add if none exist for this rid this month
-      generated.forEach(newDate=>{
-        push(ref(db,col),{text:r.text,date:newDate,who:r.who,done:false,month:ms,recurringId:rid});
-      });
     }
   });
 }
 
+// ── Nav ───────────────────────────────────────────────────────────────────────
 window.changeMonth = d => {
-  curMonth+=d;
-  if(curMonth>11){curMonth=0;curYear++;}
-  if(curMonth<0){curMonth=11;curYear--;}
+  curMonth += d;
+  if(curMonth > 11){ curMonth = 0; curYear++; }
+  if(curMonth < 0) { curMonth = 11; curYear--; }
   render();
-  setTimeout(propagateRecurring,300);
+  setTimeout(propagateRecurring, 400);
 };
 
-window.switchTab = (id,btn) => {
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+window.switchTab = (id, btn) => {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   btn.classList.add('active');
-  document.querySelector('.scroll-area').scrollTop=0;
-  if(id==='resumen') renderResumen();
+  document.querySelector('.scroll-area').scrollTop = 0;
+  if(id === 'resumen') renderResumen();
 };
 
-function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function fmtDate(s){ if(!s)return''; const [y,m,d]=s.split('-'); return `${parseInt(d)} ${MONTHS_SHORT[parseInt(m)-1]}`; }
-
+// ── Render ────────────────────────────────────────────────────────────────────
 function render(){
-  document.getElementById('month-label').textContent=MONTHS_SHORT[curMonth]+' '+curYear;
+  document.getElementById('month-label').textContent = MONTHS_SHORT[curMonth]+' '+curYear;
   renderTasks(); renderPersonal(); renderEvents(); renderGastos();
   if(document.getElementById('tab-resumen').classList.contains('active')) renderResumen();
 }
 
-function renderTasks(){
-  const items=Object.entries(localData.tasks).map(([k,v])=>({...v,key:k}))
-    .filter(t=>t.month===mk()).sort((a,b)=>(a.date||'9').localeCompare(b.date||'9'));
-  document.getElementById('task-list').innerHTML=items.length?items.map(t=>`
-    <div class="item-row">
-      <input class="cb" type="checkbox" ${t.done?'checked':''} onchange="toggleItem('tasks','${t.key}',${!t.done})"/>
-      <span class="item-label${t.done?' done':''}">${esc(t.text)}</span>
-      <div class="item-meta">
-        ${t.date?`<span class="item-date">${fmtDate(t.date)}</span>`:''}
-        ${t.recurringId?`<span class="recur-badge">↻</span>`:''}
-        <span class="badge badge-${t.who==='p'?'p':t.who==='y'?'y':'both'}">${WHO_LABEL[t.who]}</span>
+function updateHeaderProgress(done, total){
+  const pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById('header-pct').textContent = pct+'%';
+  document.getElementById('header-progress-fill').style.width = pct+'%';
+}
+
+function taskRowHTML(t, col){
+  const whoClass = t.who==='p'?'p':t.who==='y'?'y':'both';
+  return `<div class="item-row" id="row-${t.key}">
+    <div class="item-row-main">
+      <input class="cb" type="checkbox" ${t.done?'checked':''} onchange="toggleItem('${col}','${t.key}',${!t.done})"/>
+      <div class="item-body">
+        <div class="item-label${t.done?' done':''}">${esc(t.text)}</div>
+        <div class="item-meta">
+          ${t.date?`<span class="item-date">${fmtDate(t.date)}</span>`:''}
+          ${t.recurringId?`<span class="recur-badge">↻</span>`:''}
+          <span class="badge badge-${whoClass}">${WHO_LABEL[t.who]}</span>
+        </div>
       </div>
-      <button class="del-btn" onclick="delItem('tasks','${t.key}')">×</button>
-    </div>`).join(''):'<div class="empty">Sin tareas este mes</div>';
-  const done=items.filter(t=>t.done).length,total=items.length;
+      <div class="item-actions">
+        <button class="edit-btn" onclick="toggleEdit('${t.key}','${col}')" title="Editar">✏️</button>
+        <button class="del-btn" onclick="delItem('${col}','${t.key}')">×</button>
+      </div>
+    </div>
+    <div class="item-row-edit" id="edit-${t.key}">
+      <div class="edit-row">
+        <input class="edit-input" id="ei-text-${t.key}" value="${esc(t.text)}" placeholder="Tarea..." style="flex:2"/>
+        <input class="edit-input" type="date" id="ei-date-${t.key}" value="${t.date||''}" style="flex:1;min-width:120px"/>
+      </div>
+      <div class="edit-row">
+        <select class="edit-input" id="ei-who-${t.key}" style="flex:1">
+          <option value="p" ${t.who==='p'?'selected':''}>Paula</option>
+          <option value="y" ${t.who==='y'?'selected':''}>Isabel</option>
+          <option value="both" ${t.who==='both'?'selected':''}>Las dos</option>
+        </select>
+        <button class="save-btn" onclick="saveEdit('${t.key}','${col}')">Guardar</button>
+        <button class="cancel-btn" onclick="toggleEdit('${t.key}','${col}')">Cancelar</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderTasks(){
+  const items = Object.entries(localData.tasks)
+    .map(([k,v])=>({...v,key:k}))
+    .filter(t=>t.month===mk())
+    .sort((a,b)=>(a.date||'9').localeCompare(b.date||'9'));
+  document.getElementById('task-list').innerHTML = items.length
+    ? items.map(t=>taskRowHTML(t,'tasks')).join('')
+    : '<div class="empty">Sin tareas este mes</div>';
+  const done=items.filter(t=>t.done).length, total=items.length;
   document.getElementById('t-total').textContent=total;
   document.getElementById('t-done').textContent=done;
   document.getElementById('t-pct').textContent=total?Math.round(done/total*100)+'%':'0%';
+  updateHeaderProgress(done,total);
 }
 
 function renderPersonal(){
-  const items=Object.entries(localData.personal).map(([k,v])=>({...v,key:k}))
-    .filter(p=>p.month===mk()).sort((a,b)=>(a.date||'9').localeCompare(b.date||'9'));
-  document.getElementById('personal-list').innerHTML=items.length?items.map(p=>`
-    <div class="item-row">
-      <input class="cb" type="checkbox" ${p.done?'checked':''} onchange="toggleItem('personal','${p.key}',${!p.done})"/>
-      <span class="item-label${p.done?' done':''}">${esc(p.text)}</span>
-      <div class="item-meta">
-        ${p.date?`<span class="item-date">${fmtDate(p.date)}</span>`:''}
-        ${p.recurringId?`<span class="recur-badge">↻</span>`:''}
-        <span class="badge badge-${p.who==='p'?'p':'y'}">${WHO_LABEL[p.who]}</span>
-      </div>
-      <button class="del-btn" onclick="delItem('personal','${p.key}')">×</button>
-    </div>`).join(''):'<div class="empty">Sin objetivos personales</div>';
+  const items = Object.entries(localData.personal)
+    .map(([k,v])=>({...v,key:k}))
+    .filter(p=>p.month===mk())
+    .sort((a,b)=>(a.date||'9').localeCompare(b.date||'9'));
+  document.getElementById('personal-list').innerHTML = items.length
+    ? items.map(t=>taskRowHTML(t,'personal')).join('')
+    : '<div class="empty">Sin objetivos personales</div>';
 }
 
 function renderEvents(){
-  const items=Object.entries(localData.events).map(([k,v])=>({...v,key:k}))
-    .filter(e=>e.month===mk()).sort((a,b)=>(a.date||'9').localeCompare(b.date||'9'));
-  document.getElementById('event-list').innerHTML=items.length?items.map(e=>{
-    const d=e.date?e.date.split('-'):null;
+  const items = Object.entries(localData.events)
+    .map(([k,v])=>({...v,key:k}))
+    .filter(e=>e.month===mk())
+    .sort((a,b)=>(a.date||'9').localeCompare(b.date||'9'));
+  document.getElementById('event-list').innerHTML = items.length ? items.map(e=>{
+    const d = e.date ? e.date.split('-') : null;
+    const whoClass = e.who==='p'?'p':e.who==='y'?'y':'both';
     return `<div class="event-row">
       ${d?`<div class="event-day-box"><div class="event-day-num">${parseInt(d[2])}</div><div class="event-day-mo">${MONTHS_SHORT[parseInt(d[1])-1]}</div></div>`
          :`<div class="event-day-box" style="font-size:22px">📅</div>`}
       <div class="event-info">
         <div class="event-name">${esc(e.name)}</div>
-        <div class="event-cat">${CAT_LABEL[e.cat]||e.cat}</div>
+        <div class="event-sub">
+          <span>${CAT_LABEL[e.cat]||e.cat}</span>
+          <span class="badge badge-${whoClass}" style="font-size:10px">${WHO_LABEL[e.who||'both']}</span>
+        </div>
+        ${e.desc?`<div class="event-desc">${esc(e.desc)}</div>`:''}
       </div>
       <button class="del-btn" onclick="delItem('events','${e.key}')">×</button>
     </div>`;
-  }).join(''):'<div class="empty">Sin planes este mes</div>';
+  }).join('') : '<div class="empty">Sin planes este mes</div>';
 }
 
 function renderGastos(){
-  const items=Object.entries(localData.gastos).map(([k,v])=>({...v,key:k}))
-    .filter(g=>g.month===mk()).sort((a,b)=>(a.date||'9').localeCompare(b.date||'9'));
-  document.getElementById('gasto-list').innerHTML=items.length?items.map(g=>`
+  const items = Object.entries(localData.gastos)
+    .map(([k,v])=>({...v,key:k}))
+    .filter(g=>g.month===mk())
+    .sort((a,b)=>(a.date||'9').localeCompare(b.date||'9'));
+  document.getElementById('gasto-list').innerHTML = items.length ? items.map(g=>`
     <div class="gasto-row">
       <span class="gasto-label">${esc(g.label)}</span>
       ${g.date?`<span class="item-date">${fmtDate(g.date)}</span>`:''}
       <span class="badge badge-${g.who==='p'?'p':'y'}">${WHO_LABEL[g.who]}</span>
       <span class="gasto-amt">${parseFloat(g.amt).toFixed(2)}€</span>
       <button class="del-btn" onclick="delItem('gastos','${g.key}')">×</button>
-    </div>`).join(''):'<div class="empty">Sin gastos registrados</div>';
-  const bs=document.getElementById('balance-section');
+    </div>`).join('') : '<div class="empty">Sin gastos registrados</div>';
+  const bs = document.getElementById('balance-section');
   if(items.length){
     const pP=items.filter(g=>g.who==='p').reduce((s,g)=>s+parseFloat(g.amt||0),0);
     const yP=items.filter(g=>g.who==='y').reduce((s,g)=>s+parseFloat(g.amt||0),0);
-    const total=pP+yP,mx=Math.max(pP,yP,0.01),diff=Math.abs(pP-yP)/2,debtor=pP<yP?'Paula':'Hermana';
+    const total=pP+yP, mx=Math.max(pP,yP,0.01), diff=Math.abs(pP-yP)/2;
+    const debtor=pP<yP?'Paula':'Isabel';
     bs.innerHTML=`<div class="balance-wrap">
       <div class="balance-sub">Total: ${total.toFixed(2)}€ · Mitad: ${(total/2).toFixed(2)}€</div>
       <div class="balance-row"><span class="balance-name">Paula</span><div class="bar-wrap"><div class="bar-fill bar-p" style="width:${Math.round(pP/mx*100)}%"></div></div><span class="balance-amt">${pP.toFixed(2)}€</span></div>
-      <div class="balance-row"><span class="balance-name">Hermana</span><div class="bar-wrap"><div class="bar-fill bar-y" style="width:${Math.round(yP/mx*100)}%"></div></div><span class="balance-amt">${yP.toFixed(2)}€</span></div>
+      <div class="balance-row"><span class="balance-name">Isabel</span><div class="bar-wrap"><div class="bar-fill bar-y" style="width:${Math.round(yP/mx*100)}%"></div></div><span class="balance-amt">${yP.toFixed(2)}€</span></div>
       ${diff>0.01?`<div class="balance-alert">${debtor} debe <strong>${diff.toFixed(2)}€</strong> para equilibrar</div>`:`<div class="balance-alert">¡Todo equilibrado! ✓</div>`}
     </div>`;
   } else { bs.innerHTML=''; }
 }
 
 function renderResumen(){
-  const ms=mk();
-  const tasks=Object.values(localData.tasks).filter(t=>t.month===ms);
-  const done=tasks.filter(t=>t.done).length,total=tasks.length,pct=total?Math.round(done/total*100):0;
+  const ms = mk();
+  const tasks = Object.values(localData.tasks).filter(t=>t.month===ms);
+  const done=tasks.filter(t=>t.done).length, total=tasks.length, pct=total?Math.round(done/total*100):0;
   document.getElementById('r-tareas').textContent=pct+'%';
   document.getElementById('r-planes').textContent=Object.values(localData.events).filter(e=>e.month===ms).length;
   const tG=Object.values(localData.gastos).filter(g=>g.month===ms).reduce((s,g)=>s+parseFloat(g.amt||0),0);
@@ -545,22 +618,20 @@ function renderResumen(){
   document.getElementById('pct-lbl').textContent=pct+'%';
   document.getElementById('progress-fill').style.width=pct+'%';
 
-  // Task list in resumen
   const allTasks=[
     ...Object.values(localData.tasks).filter(t=>t.month===ms),
     ...Object.values(localData.personal).filter(p=>p.month===ms)
   ].sort((a,b)=>(a.date||'9').localeCompare(b.date||'9'));
-  const rtl=document.getElementById('res-task-list');
-  rtl.innerHTML=allTasks.length?allTasks.map(t=>`
+  document.getElementById('res-task-list').innerHTML = allTasks.length ? allTasks.map(t=>`
     <div class="res-task-row">
       <span class="res-task-label${t.done?' done':''}">${esc(t.text)}</span>
       ${t.date?`<span class="item-date">${fmtDate(t.date)}</span>`:''}
       <span class="badge badge-${t.who==='p'?'p':t.who==='y'?'y':'both'}" style="font-size:10px">${WHO_LABEL[t.who]}</span>
-    </div>`).join(''):'<div class="empty">Sin tareas este mes</div>';
+    </div>`).join('') : '<div class="empty">Sin tareas este mes</div>';
 
   const saved=localData.review||{};
   document.getElementById('review-list').innerHTML=REVIEW_ITEMS.map((text,i)=>{
-    const key=`item_${i}`,d=saved[key]?.done||false;
+    const key=`item_${i}`, d=saved[key]?.done||false;
     return `<div class="review-item${d?' done-item':''}">
       <input type="checkbox" ${d?'checked':''} onchange="toggleReview('${key}',${!d})"/>
       <span>${text}</span></div>`;
@@ -588,7 +659,6 @@ function renderCal(){
     const de=evs.filter(e=>e.date===ds);
     const dt=tks.filter(t=>t.date===ds&&!t.done);
     const dp=prs.filter(p=>p.date===ds&&!p.done);
-    const hasAny=de.length||dt.length||dp.length;
     return `<div class="cal-cell${d===todayD?' today':''}" onclick="openDayModal('${ds}')">
       <div class="cal-num">${d}</div>
       ${de.map(e=>`<div class="cal-pip ev">${esc(e.name).slice(0,7)}</div>`).join('')}
@@ -599,18 +669,26 @@ function renderCal(){
 }
 
 // ── Day modal ─────────────────────────────────────────────────────────────────
-window.openDayModal = (ds) => {
+window.openDayModal = ds => {
   const [y,m,d]=ds.split('-');
-  const ms=`${y}-${m}`;
   document.getElementById('modal-title').textContent=`${parseInt(d)} de ${MONTHS_FULL[parseInt(m)-1]}`;
   const evs=Object.values(localData.events).filter(e=>e.date===ds);
   const tks=Object.values(localData.tasks).filter(t=>t.date===ds);
   const prs=Object.values(localData.personal).filter(p=>p.date===ds);
-  const gastos=Object.values(localData.gastos).filter(g=>g.date===ds);
+  const gst=Object.values(localData.gastos).filter(g=>g.date===ds);
   let html='';
   if(evs.length){
     html+=`<div class="modal-section"><div class="modal-section-title">📅 Actividades</div>`;
-    html+=evs.map(e=>`<div class="modal-item"><span style="flex:1">${esc(e.name)}</span><span style="font-size:12px;color:var(--text-3)">${CAT_LABEL[e.cat]||e.cat}</span></div>`).join('');
+    html+=evs.map(e=>`<div class="modal-item">
+      <div class="modal-item-body">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span style="font-size:14px;font-weight:500">${esc(e.name)}</span>
+          <span class="badge badge-${e.who==='p'?'p':e.who==='y'?'y':'both'}" style="font-size:10px">${WHO_LABEL[e.who||'both']}</span>
+          <span style="font-size:12px;color:var(--text-3)">${CAT_LABEL[e.cat]||e.cat}</span>
+        </div>
+        ${e.desc?`<div class="modal-item-desc">${esc(e.desc)}</div>`:''}
+      </div>
+    </div>`).join('');
     html+=`</div>`;
   }
   if(tks.length){
@@ -623,86 +701,108 @@ window.openDayModal = (ds) => {
     html+=prs.map(p=>`<div class="modal-item"><span style="flex:1;${p.done?'text-decoration:line-through;color:var(--text-3)':''}">${esc(p.text)}</span><span class="badge badge-${p.who==='p'?'p':'y'}" style="font-size:10px">${WHO_LABEL[p.who]}</span></div>`).join('');
     html+=`</div>`;
   }
-  if(gastos.length){
+  if(gst.length){
     html+=`<div class="modal-section"><div class="modal-section-title">💶 Gastos</div>`;
-    html+=gastos.map(g=>`<div class="modal-item"><span style="flex:1">${esc(g.label)}</span><span class="badge badge-${g.who==='p'?'p':'y'}" style="font-size:10px">${WHO_LABEL[g.who]}</span><span style="font-size:13px;font-weight:500;margin-left:6px">${parseFloat(g.amt).toFixed(2)}€</span></div>`).join('');
+    html+=gst.map(g=>`<div class="modal-item"><span style="flex:1">${esc(g.label)}</span><span class="badge badge-${g.who==='p'?'p':'y'}" style="font-size:10px">${WHO_LABEL[g.who]}</span><span style="font-size:13px;font-weight:500;margin-left:6px">${parseFloat(g.amt).toFixed(2)}€</span></div>`).join('');
     html+=`</div>`;
   }
   if(!html) html=`<div class="modal-empty">Sin eventos para este día</div>`;
   document.getElementById('modal-body').innerHTML=html;
   document.getElementById('day-modal').classList.add('open');
 };
+window.closeDayModal = e => { if(e.target===document.getElementById('day-modal')) closeDayModalDirect(); };
+window.closeDayModalDirect = () => document.getElementById('day-modal').classList.remove('open');
 
-window.closeDayModal = (e) => { if(e.target===document.getElementById('day-modal')) closeDayModalDirect(); };
-window.closeDayModalDirect = () => { document.getElementById('day-modal').classList.remove('open'); };
+// ── Inline edit ───────────────────────────────────────────────────────────────
+window.toggleEdit = (key, col) => {
+  const el = document.getElementById('edit-'+key);
+  el.classList.toggle('open');
+};
+
+window.saveEdit = (key, col) => {
+  const text = document.getElementById('ei-text-'+key).value.trim();
+  const date = document.getElementById('ei-date-'+key).value;
+  const who  = document.getElementById('ei-who-'+key).value;
+  if(!text) return;
+  update(ref(db, `${col}/${key}`), {text, date, who});
+  document.getElementById('edit-'+key).classList.remove('open');
+};
 
 // ── CRUD ──────────────────────────────────────────────────────────────────────
-window.addTask=()=>{
-  const text=document.getElementById('task-input').value.trim();
+window.addTask = () => {
+  const text = document.getElementById('task-input').value.trim();
   if(!text) return;
-  const date=document.getElementById('task-date').value;
-  const who=document.getElementById('task-who').value;
-  const recur=document.getElementById('task-recur').value;
-  const ms=mk();
-  if(recur!=='none'){
-    const rid=push(ref(db,'recurring'),{text,who,recur,baseDate:date,type:'task',active:true}).key;
-    push(ref(db,'tasks'),{text,date,who,done:false,month:ms,recurringId:rid});
+  const date  = document.getElementById('task-date').value;
+  const who   = document.getElementById('task-who').value;
+  const recur = document.getElementById('task-recur').value;
+  const ms    = mk();
+  if(recur !== 'none'){
+    const ridRef = push(ref(db,'recurring'), {text, who, recur, baseDate:date, type:'task', active:true});
+    push(ref(db,'tasks'), {text, date, who, done:false, month:ms, recurringId:ridRef.key});
   } else {
-    push(ref(db,'tasks'),{text,date,who,done:false,month:ms});
+    push(ref(db,'tasks'), {text, date, who, done:false, month:ms});
   }
-  document.getElementById('task-input').value='';
-  document.getElementById('task-recur').value='none';
+  document.getElementById('task-input').value = '';
+  document.getElementById('task-recur').value = 'none';
 };
 
-window.addPersonal=()=>{
-  const text=document.getElementById('personal-input').value.trim();
+window.addPersonal = () => {
+  const text = document.getElementById('personal-input').value.trim();
   if(!text) return;
-  const date=document.getElementById('personal-date').value;
-  const who=document.getElementById('personal-who').value;
-  const recur=document.getElementById('personal-recur').value;
-  const ms=mk();
-  if(recur!=='none'){
-    const rid=push(ref(db,'recurring'),{text,who,recur,baseDate:date,type:'personal',active:true}).key;
-    push(ref(db,'personal'),{text,date,who,done:false,month:ms,recurringId:rid});
+  const date  = document.getElementById('personal-date').value;
+  const who   = document.getElementById('personal-who').value;
+  const recur = document.getElementById('personal-recur').value;
+  const ms    = mk();
+  if(recur !== 'none'){
+    const ridRef = push(ref(db,'recurring'), {text, who, recur, baseDate:date, type:'personal', active:true});
+    push(ref(db,'personal'), {text, date, who, done:false, month:ms, recurringId:ridRef.key});
   } else {
-    push(ref(db,'personal'),{text,date,who,done:false,month:ms});
+    push(ref(db,'personal'), {text, date, who, done:false, month:ms});
   }
-  document.getElementById('personal-input').value='';
-  document.getElementById('personal-recur').value='none';
+  document.getElementById('personal-input').value = '';
+  document.getElementById('personal-recur').value = 'none';
 };
 
-window.addEvent=()=>{
-  const name=document.getElementById('event-name').value.trim();
+window.addEvent = () => {
+  const name = document.getElementById('event-name').value.trim();
   if(!name) return;
-  push(ref(db,'events'),{name,date:document.getElementById('event-date').value,cat:document.getElementById('event-cat').value,month:mk()});
-  document.getElementById('event-name').value='';
+  push(ref(db,'events'), {
+    name,
+    desc: document.getElementById('event-desc').value.trim(),
+    date: document.getElementById('event-date').value,
+    cat:  document.getElementById('event-cat').value,
+    who:  document.getElementById('event-who').value,
+    month: mk()
+  });
+  document.getElementById('event-name').value = '';
+  document.getElementById('event-desc').value = '';
 };
 
-window.addGasto=()=>{
-  const label=document.getElementById('gasto-label').value.trim();
-  const amt=parseFloat(document.getElementById('gasto-amt').value)||0;
+window.addGasto = () => {
+  const label = document.getElementById('gasto-label').value.trim();
+  const amt   = parseFloat(document.getElementById('gasto-amt').value)||0;
   if(!label||!amt) return;
-  push(ref(db,'gastos'),{label,date:document.getElementById('gasto-date').value,who:document.getElementById('gasto-who').value,amt,month:mk()});
-  document.getElementById('gasto-label').value='';
-  document.getElementById('gasto-amt').value='';
+  push(ref(db,'gastos'), {label, date:document.getElementById('gasto-date').value, who:document.getElementById('gasto-who').value, amt, month:mk()});
+  document.getElementById('gasto-label').value = '';
+  document.getElementById('gasto-amt').value   = '';
 };
 
-window.toggleItem=(col,key,val)=>set(ref(db,`${col}/${key}/done`),val);
-window.delItem=(col,key)=>remove(ref(db,`${col}/${key}`));
-window.toggleReview=(key,val)=>set(ref(db,`review/${key}/done`),val);
+window.toggleItem   = (col,key,val) => set(ref(db,`${col}/${key}/done`), val);
+window.delItem      = (col,key)     => remove(ref(db,`${col}/${key}`));
+window.toggleReview = (key,val)     => set(ref(db,`review/${key}/done`), val);
 
-['task-input','personal-input','event-name','gasto-label'].forEach((id,i)=>{
-  const fns=[window.addTask,window.addPersonal,window.addEvent,window.addGasto];
-  document.getElementById(id)?.addEventListener('keydown',e=>{if(e.key==='Enter')fns[i]();});
+['task-input','personal-input','event-name','gasto-label'].forEach((id,i) => {
+  const fns = [window.addTask, window.addPersonal, window.addEvent, window.addGasto];
+  document.getElementById(id)?.addEventListener('keydown', e => { if(e.key==='Enter') fns[i](); });
 });
 
-const todayStr=now.toISOString().split('T')[0];
-['task-date','personal-date','event-date','gasto-date'].forEach(id=>{
-  const el=document.getElementById(id); if(el) el.value=todayStr;
+const todayStr = now.toISOString().split('T')[0];
+['task-date','personal-date','event-date','gasto-date'].forEach(id => {
+  const el = document.getElementById(id); if(el) el.value = todayStr;
 });
 
 render();
-setTimeout(propagateRecurring,800);
+setTimeout(propagateRecurring, 800);
 </script>
 </body>
 </html>
